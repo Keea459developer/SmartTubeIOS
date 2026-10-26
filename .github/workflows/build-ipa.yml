@@ -7,22 +7,31 @@ on:
 
 jobs:
   build-ipa:
-    runs-on: macos-14
+    runs-on: macos-26
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Select Xcode 16 (Swift 6.0)
+      - name: Select Xcode 26.6
         run: |
-          XCODE=$(ls -d /Applications/Xcode_16*.app 2>/dev/null | sort -V | tail -1)
+          XCODE=/Applications/Xcode_26.6.app
+          if [ ! -d "$XCODE" ]; then
+            XCODE=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          fi
+          if [ -z "$XCODE" ] || [ ! -d "$XCODE" ]; then
+            XCODE=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -1)
+          fi
           echo "Using Xcode: $XCODE"
           sudo xcode-select -s "$XCODE"
           xcodebuild -version
 
+      - name: Placeholder secrets (fork-safe)
+        run: cp SmartTubeApp/Config/Secrets.xcconfig.example SmartTubeApp/Config/Secrets.xcconfig
+
       - name: Archive (unsigned)
         run: |
           xcodebuild -workspace SmartTube.xcworkspace \
-            -scheme 'SmartTube' \
+            -scheme SmartTube \
             -configuration Release \
             -destination 'generic/platform=iOS' \
             -archivePath build/SmartTube.xcarchive \
