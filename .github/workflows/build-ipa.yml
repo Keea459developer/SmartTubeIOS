@@ -1,21 +1,24 @@
 name: Build iPhone IPA
 
 on:
-  workflow_dispatch:        # กดรันเองได้จากหน้า Actions
+  workflow_dispatch:
   push:
     branches: [main, master]
 
 jobs:
   build-ipa:
-    runs-on: macos-14       # เครื่อง macOS พร้อม Xcode (ฟรีสำหรับ repo public)
+    runs-on: macos-14
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Print Xcode version
-        run: xcodebuild -version
+      - name: Select Xcode 16 (Swift 6.0)
+        run: |
+          XCODE=$(ls -d /Applications/Xcode_16*.app 2>/dev/null | sort -V | tail -1)
+          echo "Using Xcode: $XCODE"
+          sudo xcode-select -s "$XCODE"
+          xcodebuild -version
 
-      # Archive แอปแบบไม่เซ็น (unsigned) — เอาไป sign ทีหลังได้
       - name: Archive (unsigned)
         run: |
           xcodebuild -workspace SmartTube.xcworkspace \
@@ -28,7 +31,6 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             archive
 
-      # แพ็ก .app เป็น .ipa (วิธี manual — ใช้ได้กับ unsigned build)
       - name: Package IPA
         run: |
           mkdir -p build/Payload
@@ -36,7 +38,6 @@ jobs:
           cd build
           zip -qr SmartTube-unsigned.ipa Payload
 
-      # อัปโหลด .ipa ให้กดดาวน์โหลดได้จากหน้า Actions → Artifacts
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
