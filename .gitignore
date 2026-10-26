@@ -1,0 +1,85 @@
+# Claude Code local overrides
+.claude/settings.local.json
+CLAUDE.local.md
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Xcode
+*.xcuserstate
+xcuserdata/
+*.xcscmblueprint
+*~.nib
+*.pbxuser
+DerivedData/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+.swiftpm/xcode/
+
+# CocoaPods
+Pods/
+*.xcworkspace/*
+!*.xcworkspace/contents.xcworkspacedata
+!*.xcworkspace/xcshareddata
+!*.xcworkspace/xcshareddata/*
+!*.xcworkspace/xcshareddata/swiftpm
+!*.xcworkspace/xcshareddata/swiftpm/Package.resolved
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Environment / secrets
+*.env
+*.p8
+*.p12
+*.mobileprovision
+AuthKey_*.p8
+
+# Private signing config (copy from SmartTubeIOSPrivate via setup.sh)
+**/Secrets.xcconfig
+!**/Secrets.xcconfig.example
+# Firebase config (copy from SmartTubeIOSPrivate via setup.sh)
+**/GoogleService-Info.plist
+!**/GoogleService-Info.plist.example
+
+# Simulator
+*.app
+
+# Misc
+.venv/
+*.log
+notes.txt
+out.txt
+out1.txt
+deps.txt
+logcat.txt
+/releases
+/files
+.screenshot-review/
+/misc
+/other
+/TODO.txt
+tmp/
+*_bak*
+*_tmp
+*.bak*
+*.tmp
+*.7z
+.DS_Store
+/captures
+.externalNativeBuild
+fabric.properties
+*BAK.java
+hs_err_pid*.log
